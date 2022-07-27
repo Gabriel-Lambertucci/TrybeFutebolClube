@@ -338,7 +338,7 @@ module.exports = {
           away_team: 2,
           away_team_goals: 1,
           in_progress: true,
-        }
+        },
       ],
       {},
     );

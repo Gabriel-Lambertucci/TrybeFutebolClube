@@ -16,6 +16,7 @@
   "parserOptions": {
     "ecmaVersion": 2019,
     "sourceType": "module",
+    "tsconfigRootDir": "/home/gabriel/Trybe/TrybeCurso/Projetos/Projeto26-TFC/sd-018-b-trybe-futebol-clube/app/backend",
     "project": "./tsconfig.json"
   },
   "plugins": [

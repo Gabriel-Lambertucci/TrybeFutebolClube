@@ -1,5 +1,8 @@
-import 'dotenv/config';
 import { Options } from 'sequelize';
+
+const { config: dotenvConfig } = require('dotenv');
+
+dotenvConfig();
 
 const config: Options = {
   username: process.env.DB_USER || 'root',
@@ -12,6 +15,6 @@ const config: Options = {
     timezone: 'Z',
   },
   logging: false,
-}
+};
 
 module.exports = config;
