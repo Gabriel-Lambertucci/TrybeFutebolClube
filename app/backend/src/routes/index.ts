@@ -6,6 +6,6 @@ const routes = express.Router();
 
 const loginController = new LoginController();
 
-routes.get('/login', loginMiddleware.validateLogin, loginController.authLogin);
+routes.post('/login', loginMiddleware.validateLogin, loginController.authLogin);
 
 export default routes;

@@ -1,3 +1,4 @@
+import { compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../database/models/user';
 
@@ -5,9 +6,17 @@ class LoginService {
   public authLogin = async (email: string, password: string) => {
     let payload = {};
     const user = await User.findOne({
-      where: { email, password },
+      where: { email },
     });
-    if (!user || user.getDataValue('password') !== password) return 'Usuário não encontrado';
+    if (!user) {
+      return (
+        { message: 'Usuário não encontrado' }
+      );
+    }
+
+    const passwordIsValid = compareSync(password, user.getDataValue('password'));
+
+    if (!passwordIsValid) return { message: 'Senha incorreta' };
 
     payload = { email: user.getDataValue('email'), password: user.getDataValue('password') };
 

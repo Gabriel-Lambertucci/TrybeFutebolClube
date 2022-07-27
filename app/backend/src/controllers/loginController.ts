@@ -7,9 +7,10 @@ class LoginController {
     this.loginService = new LoginService();
   }
 
-  authLogin = async (req: Request, __res: Response): Promise<string> => {
+  authLogin = async (req: Request, res: Response): Promise<Response | undefined> => {
     const token = await this.loginService.authLogin(req.body.email, req.body.password);
-    return token;
+    if (!token || typeof token === 'object') return res.status(500).json(token);
+    res.status(200).json({ token });
   };
 }
 
