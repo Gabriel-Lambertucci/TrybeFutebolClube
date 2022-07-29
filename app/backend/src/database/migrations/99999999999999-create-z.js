@@ -4,7 +4,7 @@ module.exports = {
       id: {
         primaryKey: true,
         type: Sequelize.INTEGER,
-      }
+      },
     });
   },
   down: async (queryInterface) => {

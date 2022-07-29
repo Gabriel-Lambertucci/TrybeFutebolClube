@@ -1,10 +1,10 @@
 FROM node:16.14-alpine
 
-COPY package.json .
+WORKDIR /app-backend
 
-RUN npm install
+COPY package.json .
 
 COPY . .
 
-CMD npm start
+RUN npm install
 
