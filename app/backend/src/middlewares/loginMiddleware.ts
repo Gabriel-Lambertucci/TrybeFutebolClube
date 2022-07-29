@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 
 import * as Joi from 'joi';
 
+// Validação:
+
 const loginDTO = (input: object) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
