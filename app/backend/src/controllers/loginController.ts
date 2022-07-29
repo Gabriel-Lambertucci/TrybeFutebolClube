@@ -8,9 +8,11 @@ class LoginController {
   }
 
   authLogin = async (req: Request, res: Response): Promise<Response | undefined> => {
-    const token = await this.loginService.authLogin(req.body.email, req.body.password);
-    if (!token || typeof token === 'object') return res.status(500).json(token);
-    res.status(200).json({ token });
+    const response = await this.loginService.authLogin(req.body.email, req.body.password);
+    console.log(response);
+    if (!response) return res.status(500);
+    if (typeof response === 'object') return res.status(401).json({ message: response.message });
+    res.status(200).json({ token: response });
   };
 }
 

@@ -10,13 +10,15 @@ class LoginService {
     });
     if (!user) {
       return (
-        { message: 'Usuário não encontrado' }
+        {
+          message: 'Incorrect email or password',
+        }
       );
     }
 
     const passwordIsValid = compareSync(password, user.getDataValue('password'));
 
-    if (!passwordIsValid) return { message: 'Senha incorreta' };
+    if (!passwordIsValid) return { message: 'Incorrect email or password' };
 
     payload = { email: user.getDataValue('email'), password: user.getDataValue('password') };
 

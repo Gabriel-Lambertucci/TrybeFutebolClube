@@ -50,7 +50,7 @@ describe('Testes', () => {
         sinon
           .stub(loginMiddleware, 'validateLogin')
           .resolves({
-            message: "\"password\" is not allowed to be empty"
+            message: "All fields must be filled"
           })
       })
 
@@ -64,10 +64,10 @@ describe('Testes', () => {
         .post('/login')
         .send({ email: 'test@example.com', password: ''})
         .then(function (res) {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res).to.be.json;
           const body = JSON.parse(res.text);
-          expect(body).to.deep.equal({message: '"password" is not allowed to be empty'});
+          expect(body).to.deep.equal({message: "All fields must be filled"});
         })
         .catch(function (err) {
           throw err;
@@ -82,7 +82,7 @@ describe('Testes', () => {
         sinon
           .stub(loginMiddleware, 'validateLogin')
           .resolves({
-            message: "\"email\" is not allowed to be empty"
+            message: "All fields must be filled"
           })
       })
 
@@ -92,10 +92,10 @@ describe('Testes', () => {
         .post('/login')
         .send({ email: '', password: '123456'})
         .then(function (res) {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res).to.be.json;
           const body = JSON.parse(res.text);
-          expect(body).to.deep.equal({message: '"email" is not allowed to be empty'});
+          expect(body).to.deep.equal({message: "All fields must be filled"});
         })
         .catch(function (err) {
           throw err;
@@ -111,7 +111,7 @@ describe('Testes', () => {
         sinon
           .stub(loginService, 'authLogin')
           .resolves({
-            message: "Senha incorreta"
+            message: "Incorrect email or password"
           })
       })
 
@@ -121,10 +121,39 @@ describe('Testes', () => {
         .post('/login')
         .send({ email: 'user@user.com', password: '123456'})
         .then(function (res) {
-          expect(res).to.have.status(500);
+          expect(res).to.have.status(401);
           expect(res).to.be.json;
           const body = JSON.parse(res.text);
-          expect(body).to.deep.equal({message: 'Senha incorreta'});
+          expect(body).to.deep.equal({message: "Incorrect email or password"});
+        })
+        .catch(function (err) {
+          throw err;
+        })
+      });
+    })
+
+    describe('Testando erro ao passar um email inválido', async () => {
+      let chaiHttpResponse: void;
+      const loginService = new LoginService();
+
+      before(async () => {
+        sinon
+          .stub(loginService, 'authLogin')
+          .resolves({
+            message: "Incorrect email or password"
+          })
+      })
+
+      it('teste', async () => {
+        chaiHttpResponse = await chai
+        .request(app)
+        .post('/login')
+        .send({ email: 'user@user3.com', password: '123456'})
+        .then(function (res) {
+          expect(res).to.have.status(401);
+          expect(res).to.be.json;
+          const body = JSON.parse(res.text);
+          expect(body).to.deep.equal({message: "Incorrect email or password"});
         })
         .catch(function (err) {
           throw err;

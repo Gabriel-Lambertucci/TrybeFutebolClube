@@ -16,9 +16,7 @@ const validateLogin = (req: Request, res: Response, next: NextFunction) => {
   const isValid = loginDTO(req.body);
   const message = isValid.error?.message;
   if (message) {
-    const status = (message.includes('is required')
-      ? 400 : 422);
-    return res.status(status).json({ message });
+    return res.status(400).json({ message: 'All fields must be filled' });
   }
   next();
 };
