@@ -3,13 +3,13 @@ module.exports = {
     await queryInterface.createTable('matches', {
       id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
       homeTeam: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       homeTeamGoals: {
         type: Sequelize.INTEGER,
       },
       awayTeam: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       awayTeamGoals: {
         type: Sequelize.INTEGER,
