@@ -1,5 +1,5 @@
 import { compareSync } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 import User from '../database/models/user';
 
 class LoginService {
@@ -24,6 +24,20 @@ class LoginService {
 
     const token = sign(payload, process.env.JWT_TOKEN || 'jwt_secret');
     return token;
+  };
+
+  validateLogin = async (token: string, email: string) => {
+    const tokenIsValid = verify(token, process.env.JWT_TOKEN || 'jwt_secret');
+
+    if (!tokenIsValid) return { message: 'Invalid token' };
+
+    const user = await User.findOne({
+      where: { email },
+    });
+
+    const role = user?.getDataValue('role');
+
+    return role;
   };
 }
 
