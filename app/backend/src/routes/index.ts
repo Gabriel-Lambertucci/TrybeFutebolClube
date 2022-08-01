@@ -26,5 +26,6 @@ const matchesController = new MatchesController();
 
 routes.get('/matches', matchesController.getMatches);
 routes.post('/matches', matchesController.postMatch);
+routes.patch('/matches/:id/finish', matchesController.patchMatch);
 
 export default routes;

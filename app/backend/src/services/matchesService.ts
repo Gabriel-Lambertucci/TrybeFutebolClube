@@ -1,6 +1,14 @@
+import validateToken from '../utils/validateToken';
 import Match from '../database/models/match';
+import TeamsService from './teamsService';
 
 class MatchService {
+  teamsService: TeamsService;
+
+  constructor() {
+    this.teamsService = new TeamsService();
+  }
+
   getMatches = async () => {
     const matches = await Match.findAll({
       include: [
@@ -54,7 +62,20 @@ class MatchService {
     return matches;
   };
 
-  postMatch = async (body: any) => {
+  postMatch = async (body: any, token: string) => {
+    let response; const tokenIsValid = validateToken(token);
+
+    if (!tokenIsValid) {
+      response = { status: 401, message: 'Token must be a valid token' }; return response as any;
+    } const teams = await this.teamsService.getTeams();
+
+    const isValid = teams.find((item) => item.id === body.homeTeam)
+    && teams.find((item) => item.id === body.awayTeam);
+
+    if (!isValid) {
+      response = { status: 404, message: 'There is no team with such id!' }; return response as any;
+    }
+
     const match = await Match.create({
       homeTeam: body.homeTeam,
       homeTeamGoals: body.homeTeamGoals,

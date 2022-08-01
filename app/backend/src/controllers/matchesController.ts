@@ -24,9 +24,25 @@ class MatchesController {
   };
 
   postMatch = async (req: Request, res: Response): Promise<Response | undefined> => {
-    const match = await this.matchesService.postMatch(req.body);
+    if (req.body.homeTeam === req.body.awayTeam) {
+      return res.status(401).json(
+        { message: 'It is not possible to create a match with two equal teams' },
+      );
+    }
 
-    return res.status(201).json(match);
+    const token = req.headers.authorization;
+
+    if (!token || typeof token !== 'string') {
+      return res.status(401).json({ message: 'invalid token' });
+    }
+
+    const match = token && await this.matchesService.postMatch(req.body, token);
+
+    console.log(match.dataValues, match.message);
+
+    if (match) {
+      return res.status(match.status || 201).json(match.dataValues || { message: match.message });
+    }
   };
 
   patchMatch = async (req: Request, res: Response): Promise<Response | undefined> => {

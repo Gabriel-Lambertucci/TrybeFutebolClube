@@ -1,5 +1,6 @@
 import { compareSync } from 'bcryptjs';
-import { sign, verify } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
+import validateToken from '../utils/validateToken';
 import User from '../database/models/user';
 
 class LoginService {
@@ -27,7 +28,7 @@ class LoginService {
   };
 
   validateLogin = async (token: string, email: string) => {
-    const tokenIsValid = verify(token, process.env.JWT_TOKEN || 'jwt_secret');
+    const tokenIsValid = validateToken(token);
 
     if (!tokenIsValid) return { message: 'Invalid token' };
 
