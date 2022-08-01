@@ -50,6 +50,14 @@ class MatchesController {
 
     if (match) return res.status(200).json({ message: 'Finished' });
   };
+
+  patchMatchById = async (req: Request, res: Response): Promise<Response | undefined> => {
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const response = await this.matchesService
+      .patchMatchById(parseInt(req.params.id, 10), homeTeamGoals, awayTeamGoals);
+
+    return res.status(200).json(response);
+  };
 }
 
 export default MatchesController;

@@ -95,6 +95,15 @@ class MatchService {
     });
     return match;
   };
+
+  patchMatchById = async (id: number, homeTeamGoals: number, awayTeamGoals: number) => {
+    const match = await Match.update({ homeTeamGoals, awayTeamGoals }, {
+      where: {
+        id,
+      },
+    });
+    return match;
+  };
 }
 
 export default MatchService;
