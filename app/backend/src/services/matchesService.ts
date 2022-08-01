@@ -53,6 +53,27 @@ class MatchService {
 
     return matches;
   };
+
+  postMatch = async (body: any) => {
+    const match = await Match.create({
+      homeTeam: body.homeTeam,
+      homeTeamGoals: body.homeTeamGoals,
+      awayTeam: body.awayTeam,
+      awayTeamGoals: body.awayTeamGoals,
+      inProgress: true,
+    });
+
+    return match;
+  };
+
+  patchMatch = async (id: number) => {
+    const match = await Match.update({ inProgress: false }, {
+      where: {
+        id,
+      },
+    });
+    return match;
+  };
 }
 
 export default MatchService;

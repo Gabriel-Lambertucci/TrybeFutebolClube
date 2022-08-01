@@ -25,5 +25,6 @@ routes.get('/teams/:id', teamsController.getTeamById);
 const matchesController = new MatchesController();
 
 routes.get('/matches', matchesController.getMatches);
+routes.post('/matches', matchesController.postMatch);
 
 export default routes;

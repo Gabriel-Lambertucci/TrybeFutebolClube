@@ -22,6 +22,18 @@ class MatchesController {
     const matches = await this.matchesService.getMatches();
     return res.status(200).json(matches);
   };
+
+  postMatch = async (req: Request, res: Response): Promise<Response | undefined> => {
+    const match = await this.matchesService.postMatch(req.body);
+
+    return res.status(201).json(match);
+  };
+
+  patchMatch = async (req: Request, res: Response): Promise<Response | undefined> => {
+    const match = await this.matchesService.patchMatch(parseInt(req.params.id, 10));
+
+    if (match) return res.status(200).json({ message: 'Finished' });
+  };
 }
 
 export default MatchesController;

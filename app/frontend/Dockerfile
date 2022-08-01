@@ -4,6 +4,8 @@ WORKDIR /app-frontend
 
 COPY package.json .
 
+COPY . .
+
 RUN npm install
 
-COPY . .
+ENTRYPOINT ["npm", "start"]
