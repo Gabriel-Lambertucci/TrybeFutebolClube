@@ -1,4 +1,5 @@
 import * as express from 'express';
+import LeaderboardController from '../controllers/leaderboardController';
 import TeamsController from '../controllers/teamsController';
 import LoginController from '../controllers/loginController';
 import loginMiddleware from '../middlewares/loginMiddleware';
@@ -28,5 +29,11 @@ routes.get('/matches', matchesController.getMatches);
 routes.post('/matches', matchesController.postMatch);
 routes.patch('/matches/:id/finish', matchesController.patchMatch);
 routes.patch('/matches/:id', matchesController.patchMatchById);
+
+// Leaderboard
+
+const leaderboard = new LeaderboardController();
+
+routes.get('/leaderboard', leaderboard.getLeaderboard);
 
 export default routes;
