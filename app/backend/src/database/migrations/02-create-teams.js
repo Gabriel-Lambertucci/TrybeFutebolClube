@@ -3,7 +3,7 @@ module.exports = {
     await queryInterface.createTable('teams', {
       id: { allowNull: false, autoIncrement: true, primaryKey: true, type: Sequelize.INTEGER,
       },
-      teamName: {
+      team_name: {
         type: Sequelize.STRING,
       },
     });
