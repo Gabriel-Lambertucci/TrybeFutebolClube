@@ -7,6 +7,7 @@ class LoginController {
 
   constructor() {
     this.loginService = new LoginService();
+    this.actualUserEmail = '';
   }
 
   authLogin = async (req: Request, res: Response): Promise<Response | undefined> => {
@@ -23,8 +24,7 @@ class LoginController {
     if (!token || typeof token !== 'string') {
       return res.status(401).json({ message: 'invalid token' });
     }
-
-    const response = this.loginService.validateLogin(token, this.actualUserEmail);
+    const response = await this.loginService.validateLogin(token, this.actualUserEmail);
 
     return res.status(200).json({ role: response });
   };
