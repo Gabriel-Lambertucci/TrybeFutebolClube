@@ -35,5 +35,7 @@ routes.patch('/matches/:id', matchesController.patchMatchById);
 const leaderboard = new LeaderboardController();
 
 routes.get('/leaderboard', leaderboard.getLeaderboard);
+routes.get('/leaderboard/home', leaderboard.getHomeLeaderboard);
+routes.get('/leaderboard/away', leaderboard.getAwayLeaderboard);
 
 export default routes;

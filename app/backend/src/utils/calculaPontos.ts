@@ -56,6 +56,18 @@ const calculaEfficiency = (matches: Array<any>, teamName: string): number => {
   return parseFloat(efficiency);
 };
 
+const calculaEfficiencyHome = (matches: Array<any>, teamName: string): number => {
+  const efficiency = (100 * ((totalHome(matches, teamName)[0])
+  / (totalHome(matches, teamName)[1] * 3))).toFixed(2);
+  return parseFloat(efficiency);
+};
+
+const calculaEfficiencyAway = (matches: Array<any>, teamName: string): number => {
+  const efficiency = (100 * ((totalAway(matches, teamName)[0])
+  / (totalAway(matches, teamName)[1] * 3))).toFixed(2);
+  return parseFloat(efficiency);
+};
+
 const calculaPontos = async () => {
   const matchesService = new MatchService();
   const matches = await matchesService.getMatchesFinished();
@@ -78,4 +90,48 @@ const calculaPontos = async () => {
   })); return sortArray(table);
 };
 
-export default calculaPontos;
+const calculaPontosHome = async () => {
+  const matchesService = new MatchService();
+  const matches = await matchesService.getMatchesFinished();
+
+  const teamsService = new TeamsService();
+  const teams = await teamsService.getTeams();
+
+  const table = teams.map((item) => ({
+    name: item.teamName,
+    totalPoints: totalHome(matches, item.teamName)[0],
+    totalGames: totalHome(matches, item.teamName)[1],
+    totalVictories: totalHome(matches, item.teamName)[2],
+    totalDraws: totalHome(matches, item.teamName)[3],
+    totalLosses: totalHome(matches, item.teamName)[4],
+    goalsFavor: totalHome(matches, item.teamName)[5],
+    goalsOwn: totalHome(matches, item.teamName)[6],
+    goalsBalance: totalHome(matches, item.teamName)[5]
+    - totalHome(matches, item.teamName)[6],
+    efficiency: calculaEfficiencyHome(matches, item.teamName),
+  })); return sortArray(table);
+};
+
+const calculaPontosAway = async () => {
+  const matchesService = new MatchService();
+  const matches = await matchesService.getMatchesFinished();
+
+  const teamsService = new TeamsService();
+  const teams = await teamsService.getTeams();
+
+  const table = teams.map((item) => ({
+    name: item.teamName,
+    totalPoints: totalAway(matches, item.teamName)[0],
+    totalGames: totalAway(matches, item.teamName)[1],
+    totalVictories: totalAway(matches, item.teamName)[2],
+    totalDraws: totalAway(matches, item.teamName)[3],
+    totalLosses: totalAway(matches, item.teamName)[4],
+    goalsFavor: totalAway(matches, item.teamName)[5],
+    goalsOwn: totalAway(matches, item.teamName)[6],
+    goalsBalance: totalAway(matches, item.teamName)[5]
+    - totalAway(matches, item.teamName)[6],
+    efficiency: calculaEfficiencyAway(matches, item.teamName),
+  })); return sortArray(table);
+};
+
+export default { calculaPontos, calculaPontosHome, calculaPontosAway };
