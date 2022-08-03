@@ -2,10 +2,6 @@
 
 Aqui você vai encontrar os detalhes de como foi estruturado o desenvolvimento do projeto.
 
-# Entregáveis
-
-Aqui você terá acesso ao contexto geral do projeto
-
 <details>
 <summary><strong>👨‍💻 O que foi desenvolvido</strong></summary><br />
 
